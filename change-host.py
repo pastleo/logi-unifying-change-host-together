@@ -40,21 +40,32 @@ mouse_keyboards = [
 #   note: change-host command for M720 seems to be 091x, which 0x09,0x10 or 0x09,0x10 or 0x09,0x12... works
 #   note: change-host command for K375s seems to be 081x, which 0x08,0x10 or 0x08,0x10 or 0x08,0x12... works
 
-print("> sleep for 0.25 seconds, preventing too fast")
-time.sleep(0.25)
+def change_device_host(path, mouse_keyboard):
+  receiver = hid.Device(path = path)
+  receiver.nonblocking = 1
+  for index in mouse_keyboard['indices']:
+    data = bytes([0x10, index, *mouse_keyboard['change_host_cmd'], host, 0x00, 0x00])
+    print("  writing:", data)
+    receiver.write(data)
+
+  print("  closing")
+  receiver.close()
+  return True
 
 for dev in hid.enumerate(0x046D, 0xC52B):
   if dev['usage'] == 1 and dev['usage_page'] == 0xFF00:
-    print('> opening hid device using path:', dev['path'])
-    receiver = hid.Device(path = dev['path'])
-    receiver.nonblocking = 1
+    print('> hid device using path:', dev['path'])
 
-    
     for mouse_keyboard in mouse_keyboards:
-      for index in mouse_keyboard['indices']:
-        data = bytes([0x10, index, *mouse_keyboard['change_host_cmd'], host, 0x00, 0x00])
-        print("  writing:", data)
-        receiver.write(data)
-
-    print("  closing")
-    receiver.close()
+      success = False
+      tried = 1
+      while not success:
+        try:
+          success = change_device_host(dev['path'], mouse_keyboard)
+        except hid.HIDException as err:
+          print("  !!", err);
+          tried += 1
+          if tried > 3:
+            raise err
+          print(f'  will retry the #{tried} time');
+        time.sleep(0.25)
