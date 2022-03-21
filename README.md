@@ -70,6 +70,6 @@ use built-in Automator to create 3 `Service/快速動作`:
 
 Then create shortcut on system settings > keyboard:
 
-![macos-keyboard-shortcut](https://i.imgur.com/jcL8BHS.png)
+![macos-keyboard-shortcut](https://i.imgur.com/hNDt8r7.png)
 
 > About [`operation not permitted` problem while using Automator](https://brianli.com/how-to-fix-automator-operation-not-permitted-error-in-macos-catalina)
