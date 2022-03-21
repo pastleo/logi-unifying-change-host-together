@@ -53,7 +53,7 @@ there is a `change-host-shortcut.ahk` in this project,
 after installing AutoHotKey, double click on `change-host-shortcut.ahk` to start shortcut service,
 create a shortcut (捷徑) at `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup` to auto start `change-host-shortcut.ahk` at boot.
 
-### on KDE Please
+### on KDE Plasma
 
 open System Setting App > Shortcuts > Custom Shortcuts, create shortcuts by Edit > New > Global Shortcut > Command/URL,
 give theme names `change logi host to 1/2/3`, set Trigger to `Meta + F1/F2/F3` and Action to `path/to/change-host.sh 0/1/2`
